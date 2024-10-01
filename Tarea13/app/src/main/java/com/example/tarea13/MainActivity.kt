@@ -1,15 +1,17 @@
 package com.example.tarea13
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,8 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val toast = Toast.makeText(this, "Bienvenido de nuevo, " + nombre.text, Toast.LENGTH_SHORT)
-        toast.show()
+        val saludo = Toast.makeText(this, "Bienvenido de nuevo, " + nombre.text, Toast.LENGTH_SHORT)
+        saludo.show()
         Log.d(":::Vida" , "He creado el onResume()")
     }
 
@@ -51,10 +53,35 @@ class MainActivity : AppCompatActivity() {
 //        Log.d(":::Vida" , "He creado el onPause()")
 //    }
 //
-//    override fun onStop() {
-//        super.onStop()
-//        Log.d(":::Vida" , "He creado el onStop()")
-//    }
+    override fun onStop() {
+        super.onStop()
+        var noti = NotificationCompat.Builder(this)
+        .setContentTitle("CLOSED")
+        .setContentText("Se ha cerrado la aplicacion")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    with(NotificationManagerCompat.from(this)) {
+        if (ActivityCompat.checkSelfPermission(
+                this@MainActivity,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            // ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            // public fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+            //                                        grantResults: IntArray)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return@with
+        }
+        // notificationId is a unique int for each notification that you must define.
+        notify(1, noti.build())
+    }
+
+        Log.d(":::Vida" , "He creado el onStop()")
+    }
 //
 //    override fun onDestroy() {
 //        super.onDestroy()
