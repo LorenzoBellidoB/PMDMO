@@ -9,13 +9,13 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/contraseña"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text=""
+        android:text="Contraseña"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"

@@ -1,5 +1,6 @@
 package com.example.tarea13
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +29,9 @@ class MainActivity : AppCompatActivity() {
         boton = findViewById<Button>(R.id.botonId)
 
         boton.setOnClickListener{
-            setContentView(R.layout.bienvenida)
+            val intent = Intent(this, Calculadora::class.java)		// this es el contexto
+            intent.putExtra("usuario", nombre.text)
+            startActivity(intent)
         }
 
         Log.d(":::Vida", "He creado el onCreate()")
@@ -47,38 +50,38 @@ class MainActivity : AppCompatActivity() {
         Log.d(":::Vida" , "He creado el onResume()")
     }
 
-//    override fun onPause() {
-//        super.onPause()
-//        setContentView(R.layout.pausa)
-//        Log.d(":::Vida" , "He creado el onPause()")
-//    }
-//
+    override fun onPause() {
+        super.onPause()
+        setContentView(R.layout.pausa)
+        Log.d(":::Vida" , "He creado el onPause()")
+    }
+
     override fun onStop() {
         super.onStop()
-        var noti = NotificationCompat.Builder(this)
-        .setContentTitle("CLOSED")
-        .setContentText("Se ha cerrado la aplicacion")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-    with(NotificationManagerCompat.from(this)) {
-        if (ActivityCompat.checkSelfPermission(
-                this@MainActivity,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            // ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            // public fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-            //                                        grantResults: IntArray)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-            return@with
-        }
-        // notificationId is a unique int for each notification that you must define.
-        notify(1, noti.build())
-    }
+//        var noti = NotificationCompat.Builder(this)
+//        .setContentTitle("CLOSED")
+//        .setContentText("Se ha cerrado la aplicacion")
+//        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//
+//    with(NotificationManagerCompat.from(this)) {
+//        if (ActivityCompat.checkSelfPermission(
+//                this@MainActivity,
+//                Manifest.permission.POST_NOTIFICATIONS
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // TODO: Consider calling
+//            // ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            // public fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+//            //                                        grantResults: IntArray)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//
+//            return@with
+//        }
+//        // notificationId is a unique int for each notification that you must define.
+//        notify(1, noti.build())
+//    }
 
         Log.d(":::Vida" , "He creado el onStop()")
     }
