@@ -2,8 +2,10 @@ package com.example.tarea13
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -38,15 +40,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setContentView(R.layout.activity_main)
+        val toast = Toast.makeText(this, "Bienvenido de nuevo, " + nombre.text, Toast.LENGTH_SHORT)
+        toast.show()
         Log.d(":::Vida" , "He creado el onResume()")
     }
 
-    override fun onPause() {
-        super.onPause()
-        setContentView(R.layout.pausa)
-        Log.d(":::Vida" , "He creado el onPause()")
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        setContentView(R.layout.pausa)
+//        Log.d(":::Vida" , "He creado el onPause()")
+//    }
 //
 //    override fun onStop() {
 //        super.onStop()

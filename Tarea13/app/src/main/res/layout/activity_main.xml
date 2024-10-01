@@ -58,7 +58,7 @@
         android:layout_marginStart="12dp"
         android:ems="10"
         android:inputType="text"
-        android:text=""
+        android:text="Lorenzo"
         android:textColor="#160E0E"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
