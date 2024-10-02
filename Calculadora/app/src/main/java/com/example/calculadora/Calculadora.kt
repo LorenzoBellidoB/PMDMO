@@ -1,17 +1,12 @@
 package com.example.calculadora
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.calculadora.MainActivity.Companion.nombre
 
 class Calculadora : AppCompatActivity() {
 
@@ -49,11 +44,11 @@ class Calculadora : AppCompatActivity() {
             var numero2 = num2.text.toString()
 
             if(numero1.isNotEmpty() && numero2.isNotEmpty()){
-                var num1Long = numero1.toLongOrNull()
-                var num2Long = numero2.toLongOrNull()
+                var num1Double = numero1.toDoubleOrNull()
+                var num2Double = numero2.toDoubleOrNull()
 
-                if(num1Long != null && num2Long != null){
-                    var resultado = num1Long + num2Long
+                if(num1Double != null && num2Double != null){
+                    var resultado = num1Double + num2Double
                     res.text = resultado.toString()
                 }
             }
@@ -64,11 +59,11 @@ class Calculadora : AppCompatActivity() {
             var numero2 = num2.text.toString()
 
             if(numero1.isNotEmpty() && numero2.isNotEmpty()){
-                var num1Long = numero1.toLongOrNull()
-                var num2Long = numero2.toLongOrNull()
+                var num1Double = numero1.toDoubleOrNull()
+                var num2Double = numero2.toDoubleOrNull()
 
-                if(num1Long != null && num2Long != null){
-                    var resultado = num1Long - num2Long
+                if(num1Double != null && num2Double != null){
+                    var resultado = num1Double - num2Double
                     res.text = resultado.toString()
                 }
             }
@@ -79,11 +74,11 @@ class Calculadora : AppCompatActivity() {
             var numero2 = num2.text.toString()
 
             if(numero1.isNotEmpty() && numero2.isNotEmpty()){
-                var num1Long = numero1.toLongOrNull()
-                var num2Long = numero2.toLongOrNull()
+                var num1Double = numero1.toDoubleOrNull()
+                var num2Double = numero2.toDoubleOrNull()
 
-                if(num1Long != null && num2Long != null){
-                    var resultado = num1Long * num2Long
+                if(num1Double != null && num2Double != null){
+                    var resultado = num1Double * num2Double
                     res.text = resultado.toString()
                 }
             }
@@ -94,11 +89,12 @@ class Calculadora : AppCompatActivity() {
             var numero2 = num2.text.toString()
 
             if(numero1.isNotEmpty() && numero2.isNotEmpty()){
-                var num1Long = numero1.toLongOrNull()
-                var num2Long = numero2.toLongOrNull()
+                var num1Double = numero1.toDoubleOrNull()
+                var num2Double = numero2.toDoubleOrNull()
 
-                if(num1Long != null && num2Long != null){
-                    var resultado = num1Long / num2Long
+                if(num1Double != null && num2Double != null){
+
+                    var resultado = num1Double / num2Double
 
                     res.text = resultado.toString()
                 }
