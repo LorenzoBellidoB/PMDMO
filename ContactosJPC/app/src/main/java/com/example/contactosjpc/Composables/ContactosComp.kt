@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.contactosjpc.Contacto
 import com.example.contactosjpc.R
+import androidx.compose.ui.tooling.preview.Preview
+
 
 @Composable
 fun ItemList(itemContacto: List<Contacto>) {
@@ -26,7 +28,6 @@ fun ItemList(itemContacto: List<Contacto>) {
         }
     }
 }
-
 
 @Composable
 fun ContactoView(contacto: Contacto) {
