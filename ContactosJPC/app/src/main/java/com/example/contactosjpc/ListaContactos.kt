@@ -21,7 +21,7 @@ class ListaContactos : ComponentActivity() {
             Contacto("Lorenzo", "623567765", 0),
             Contacto("Ruben", "652567765", 1),
             Contacto("Amaru", "652567465", 1),
-            Contacto("Jose", "652561234", 1),
+            Contacto("Papa", "695927259", 0),
             Contacto("Cristiano", "652545675", 0)
 
             )
