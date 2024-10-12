@@ -30,12 +30,15 @@ import com.example.contactosjpc.R
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.core.app.ActivityCompat
 
 
 @Composable
 fun ItemList(itemContacto: List<Contacto>) {
-    LazyColumn {    // produce una lista de desplazamiento vertical,
+    LazyVerticalGrid(columns = GridCells.Fixed(2)) {     // produce una lista de desplazamiento vertical,
         items(itemContacto) { itemContacto ->
             ContactoView(contacto = itemContacto)
         }
