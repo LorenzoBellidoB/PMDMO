@@ -77,7 +77,7 @@ fun SimpleLogin() {
         OutlinedButton(
             modifier = Modifier.padding(10.dp),
             onClick = {
-                if(user == "Lorenzo"){
+                if(user == "Usuario"){
                     val intent = Intent(contexto, ListaContactos::class.java)
                     contexto.startActivity(intent)
                 }
