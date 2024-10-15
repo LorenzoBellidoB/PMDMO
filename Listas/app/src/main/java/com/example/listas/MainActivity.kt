@@ -25,6 +25,9 @@ class MainActivity : ComponentActivity() {
                 Animal("Perro", "Descripcion de perro", painterResource(R.drawable.perro)),
                 Animal("Gato", "Descripcion de gato", painterResource(R.drawable.gato)),
                 Animal("Marco", "Descripcion de Marco", painterResource(R.drawable.marco)),
+                Animal("Pato", "Descripcion de perro", painterResource(R.drawable.ic_launcher_background)),
+                Animal("Raton", "Descripcion de gato", painterResource(R.drawable.ic_launcher_background)),
+                Animal("Canguro", "Descripcion de Marco", painterResource(R.drawable.ic_launcher_background)),
                 Animal("Pez", "Descripcion de pez", painterResource(R.drawable.pez))
             )
             setContent{
