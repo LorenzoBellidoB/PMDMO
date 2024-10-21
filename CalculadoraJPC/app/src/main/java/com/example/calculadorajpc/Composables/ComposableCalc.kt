@@ -4,9 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.calculadorajpc.R
 
@@ -107,27 +104,7 @@ fun VistaHome(navControllerHome : NavController){
     }
 }
 
-@Composable
-fun VistaResultado(navControllerResultado: NavController, resultado: String?) {
-    Column() {
 
-            Image(
-                painter = painterResource(R.drawable.baseline_west_24),
-                contentDescription = "Pa Tras" ,
-                Modifier.clickable {navControllerResultado.popBackStack() }.padding(top = 30.dp).size(30.dp)
-            )
-
-
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                Text("Resultado: ${resultado}",
-                    fontSize = 24.sp)
-
-            }
-
-
-
-    }
-}
 
 
 fun suma(num1: Double,num2: Double): Double {
