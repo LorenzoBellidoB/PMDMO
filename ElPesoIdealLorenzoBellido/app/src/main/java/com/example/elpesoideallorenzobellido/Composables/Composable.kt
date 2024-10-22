@@ -42,7 +42,7 @@ fun MiLogin(navControllerLogin: NavController){
     ) {
         Row {
             Image(painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "Imagen",
+                contentDescription = "Imagen 1",
                 modifier = Modifier.size(200.dp))
         }
         Row(Modifier.padding(top = 25.dp, bottom = 25.dp)) {
