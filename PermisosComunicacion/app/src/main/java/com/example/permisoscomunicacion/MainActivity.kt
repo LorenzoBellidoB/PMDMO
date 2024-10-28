@@ -46,7 +46,27 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun wifiActivo(context: Context): Boolean {
+    fun WifiActivo(context: Context): Boolean {
+        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return wifiManager.isWifiEnabled
+    }
+
+    fun RedActivo(context: Context): Boolean {
+        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return wifiManager.isWifiEnabled
+    }
+
+    fun UbicacionActivo(context: Context): Boolean {
+        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return wifiManager.isWifiEnabled
+    }
+
+    fun NfcActivo(context: Context): Boolean {
+        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return wifiManager.isWifiEnabled
+    }
+
+    fun BluetoothActivo(context: Context): Boolean {
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifiManager.isWifiEnabled
     }
@@ -54,7 +74,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Wifi(context: Context){
 
-        if(wifiActivo(context)){
+        if(WifiActivo(context)){
             Text(text = "WIFI",
                 Modifier.background(Color.Green))
         }else{
@@ -65,7 +85,13 @@ class MainActivity : ComponentActivity() {
     }
     @Composable
     fun Red(context: Context){
-        Text(text = "Internet")
+        if(RedActivo(context)){
+            Text(text = "WIFI",
+                Modifier.background(Color.Green))
+        }else{
+            Text(text = "WIFI",
+                Modifier.background(Color.Red))
+        }
     }
     @Composable
     fun Ubicacion(context: Context){
