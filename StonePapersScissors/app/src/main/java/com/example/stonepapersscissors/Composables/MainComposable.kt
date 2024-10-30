@@ -85,7 +85,7 @@ var eleccion = ""
         )
         Image(
             painterResource(R.drawable.scissors),
-            contentDescription = "Tijera",
+            contentDescription = "Tijeras",
             if(eleccion == "Piedra"){
                 Modifier.clickable { eleccion = "Tijera" }.background(Color.Yellow)
             }else{
