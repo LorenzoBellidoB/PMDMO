@@ -11,46 +11,121 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.stonepapersscissors.R
+import kotlin.random.Random
 
 @Preview
 @Composable
 fun Inicio(){
+    var eleccion by remember { mutableStateOf("") }
 
-    Column(Modifier.background(Color.Red).fillMaxSize().padding(10.dp),
-        verticalArrangement = Arrangement.SpaceBetween) {
+    var jugador by remember { mutableStateOf(0) }
+
+    var mostrar by remember { mutableStateOf(false) }
+
+    var luchar by remember { mutableStateOf(false) }
+
+    var ordenador by remember { mutableStateOf(0) }
+
+    var puntos by remember { mutableStateOf(0) }
+
+
+    Column(Modifier.background(Fondo()).fillMaxSize().padding(10.dp,40.dp),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+
         Ordenador()
-        Enfrentamiento()
-        Botonera()
-    }
 
-}
+        if(luchar){
+            ordenador = Elegir()
+            Log.d(":::EleccionO", "$ordenador")
+            Image(
+                painterResource(ordenador),
+                contentDescription = "Eleccion",
+                Modifier.width(120.dp)
+            )
+            puntos = DeterminarGanador(jugador,ordenador)
+        }
 
+        Row(Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center) {
+            Button(onClick = {luchar = true
+                             ordenador = 0},
+                Modifier.width(150.dp).height(70.dp),
+                enabled = mostrar) {
+                Text("Luchar",
+                    fontSize = 22.sp)
+            }
+        }
 
-@Composable
-fun Enfrentamiento(){
-    Row(Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center) {
-        Button(onClick = {},
-            Modifier.width(150.dp).height(70.dp)) {
-            Text("Luchar",
-                fontSize = 22.sp)
+        if(mostrar){
+            Log.d(":::EleccionJ", "$jugador")
+            Image(
+                painterResource(jugador),
+                contentDescription = "Eleccion",
+                Modifier.width(120.dp)
+            )
+        }
+
+        Row (modifier = Modifier.fillMaxWidth().height(80.dp),
+            Arrangement.SpaceEvenly) {
+
+            Image(
+                painterResource(R.drawable.rock),
+                contentDescription = "Piedra",
+                Modifier.clickable {
+                    eleccion = "Piedra"
+                    jugador = R.drawable.rock
+                    mostrar = true
+                }
+
+            )
+            Image(
+                painterResource(R.drawable.paper),
+                contentDescription = "Papel",
+                Modifier.clickable {
+                    eleccion = "Papel"
+                    jugador = R.drawable.paper
+                    mostrar = true
+                }
+            )
+            Image(
+                painterResource(R.drawable.scissors),
+                contentDescription = "Tijeras",
+                Modifier.clickable {
+                    eleccion = "Tijeras"
+                    jugador = R.drawable.scissors
+                    mostrar = true
+                }
+            )
         }
     }
+
 }
+
+
 @Composable
 fun Ordenador(){
-    Row(modifier = Modifier.background(Color.Red).fillMaxWidth().height(100.dp)) {
+    Row(modifier = Modifier.fillMaxWidth().height(100.dp)) {
         Image(painterResource(R.drawable.pc),
             contentDescription = "Ordenador",
             Modifier.fillMaxSize())
@@ -58,44 +133,41 @@ fun Ordenador(){
 }
 
 
+
 @Composable
-fun Botonera(){
-var eleccion = ""
-    Row (modifier = Modifier.background(Color.Red).fillMaxWidth().height(70.dp),
-        Arrangement.SpaceEvenly){
-
-        Image(
-            painterResource(R.drawable.rock),
-            contentDescription = "Piedra",
-            if(eleccion == "Piedra"){
-                Modifier.clickable { eleccion = "Piedra" }.background(Color.Yellow)
-            }else{
-                Modifier.clickable { eleccion = "Piedra" }
-            }
-
-        )
-        Image(
-            painterResource(R.drawable.paper),
-            contentDescription = "Papel",
-            if(eleccion == "Piedra"){
-                Modifier.clickable { eleccion = "Papel" }.background(Color.Yellow)
-            }else{
-                Modifier.clickable { eleccion = "Papel" }
-            }
-        )
-        Image(
-            painterResource(R.drawable.scissors),
-            contentDescription = "Tijeras",
-            if(eleccion == "Piedra"){
-                Modifier.clickable { eleccion = "Tijera" }.background(Color.Yellow)
-            }else{
-                Modifier.clickable { eleccion = "Tijera" }
-            }
-        )
-
-    }
+fun Fondo():Brush{
+    val gradiente = Brush.radialGradient(
+        0.0f to Color.Gray,
+        1.0f to Color.Black,
+        radius = 1500.0f,
+        tileMode = TileMode.Repeated
+    )
+    return gradiente
 }
 
+fun Elegir(): Int {
+    val num = Random.nextInt(1, 4)
+    var painter = 0
+    if(num == 1){
+        painter = R.drawable.rock
+    }else if(num == 2){
+        painter = R.drawable.paper
+    }else{
+        painter = R.drawable.scissors
+    }
 
+    return painter
+}
 
-
+fun DeterminarGanador(jugador: Int, ordenador: Int): Int {
+    return if (jugador == ordenador) {
+        0
+    }
+    else if ((jugador == R.drawable.rock && ordenador == R.drawable.scissors) || (jugador == R.drawable.paper && ordenador == R.drawable.rock) || (jugador == R.drawable.scissors && ordenador == R.drawable.paper))
+    {
+        1
+    }
+    else {
+        -1
+    }
+}
