@@ -1,17 +1,18 @@
 package com.example.stonepapersscissors.Composables
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -19,23 +20,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.stonepapersscissors.R
 import kotlin.random.Random
 
-@Preview
 @Composable
-fun Inicio(){
+fun Inicio(navController: NavController){
     var eleccion by remember { mutableStateOf("") }
 
     var jugador by remember { mutableStateOf(0) }
@@ -46,7 +47,11 @@ fun Inicio(){
 
     var ordenador by remember { mutableStateOf(0) }
 
-    var puntos by remember { mutableStateOf(0) }
+    var ganador by remember { mutableStateOf(0) }
+
+    var puntosJ by remember { mutableStateOf(0) }
+
+    var puntosO by remember { mutableStateOf(0) }
 
 
     Column(Modifier.background(Fondo()).fillMaxSize().padding(10.dp,40.dp),
@@ -56,25 +61,50 @@ fun Inicio(){
         Ordenador()
 
         if(luchar){
-            ordenador = Elegir()
+
             Log.d(":::EleccionO", "$ordenador")
             Image(
                 painterResource(ordenador),
                 contentDescription = "Eleccion",
                 Modifier.width(120.dp)
             )
-            puntos = DeterminarGanador(jugador,ordenador)
+
+
         }
 
         Row(Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center) {
+            var final = ""
+            val context = LocalContext.current
             Button(onClick = {luchar = true
-                             ordenador = 0},
+                ordenador = Elegir()
+                ganador = DeterminarGanador(jugador,ordenador)
+                if(ganador == 1){
+                    puntosJ += 1
+                    Toast.makeText(context,"Gana el jugador",Toast.LENGTH_SHORT).show()
+                }else if(ganador == -1){
+                    puntosO += 1
+                    Toast.makeText(context,"Gana el ordenador",Toast.LENGTH_SHORT).show()
+
+                }else {
+                    puntosJ += 1
+                    puntosO += 1
+                    Toast.makeText(context,"Empate",Toast.LENGTH_SHORT).show()
+                }
+                if(puntosJ == 5){
+                    final = "Jugador"
+                    navController.navigate("ganador/$final")
+                }else if(puntosO == 5){
+                    final = "Ordenador"
+                    navController.navigate("ganador/$final")
+                }
+                },
                 Modifier.width(150.dp).height(70.dp),
                 enabled = mostrar) {
                 Text("Luchar",
                     fontSize = 22.sp)
             }
+            Log.d(":::Puntos", "$ganador")
         }
 
         if(mostrar){
@@ -137,8 +167,8 @@ fun Ordenador(){
 @Composable
 fun Fondo():Brush{
     val gradiente = Brush.radialGradient(
-        0.0f to Color.Gray,
-        1.0f to Color.Black,
+        0.0f to Color(200,120,150),
+        1.0f to Color(80,20,35),
         radius = 1500.0f,
         tileMode = TileMode.Repeated
     )
