@@ -13,6 +13,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun nuevaTarea(coroutineScope: CoroutineScope){
+fun nuevaTarea(coroutineScope: CoroutineScope, lista: MutableList<TareaEntity>){
     var texto by remember { mutableStateOf("") }
     Row {
         TextField(
@@ -43,6 +44,7 @@ fun nuevaTarea(coroutineScope: CoroutineScope){
             tarea.name = texto
             coroutineScope.launch {
                 database.tareaDao().insertar(tarea)
+                lista.add(tarea)
             }
         }
             ) {
@@ -83,14 +85,14 @@ fun lista(listaTareas:List<TareaEntity>,coroutineScope: CoroutineScope) {
 @Composable
 fun miApp(){
     val coroutineScope = rememberCoroutineScope()
-    var listaTareas by remember { mutableStateOf(emptyList<TareaEntity>()) }
+    var listaTareas = remember { mutableStateListOf<TareaEntity>() }
     LaunchedEffect(Unit) {
-        // Código asíncrono que se ejecutará sólo una vez al cargar el composable
-       listaTareas =  database.tareaDao().getALl()
+        listaTareas.clear()
+        listaTareas.addAll(database.tareaDao().getALl())
     }
     Column(Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly) {
-        nuevaTarea(coroutineScope)
+        nuevaTarea(coroutineScope, listaTareas)
         lista(listaTareas,coroutineScope)
     }
 
