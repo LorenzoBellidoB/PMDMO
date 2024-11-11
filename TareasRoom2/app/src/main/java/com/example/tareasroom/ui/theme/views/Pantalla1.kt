@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun nuevaTarea(coroutineScope: CoroutineScope, lista: MutableList<TareaEntity>){
     var texto by remember { mutableStateOf("") }
+
     Row {
         TextField(
             value = texto,
