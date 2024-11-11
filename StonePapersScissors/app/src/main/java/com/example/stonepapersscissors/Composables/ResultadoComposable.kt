@@ -49,6 +49,25 @@ fun Ganador(navController: NavHostController, string: String?) {
             )
         }
 
+        Row(
+            Modifier
+                .padding(20.dp)
+                .align(Alignment.TopStart),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Image(
+                painter = painterResource(R.drawable.baseline_west_24),
+                contentDescription = "Clasificacion",
+                Modifier
+                    .padding(10.dp)
+                    .width(30.dp)
+                    .height(30.dp)
+                    .clickable {
+                        navController.navigate("clasificacion")
+                    }
+            )
+        }
+
         Box(
             Modifier
                 .fillMaxSize(),

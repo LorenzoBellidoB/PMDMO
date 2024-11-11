@@ -43,9 +43,15 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    composable("ganador") { backStackEntry ->
+                    composable("ganador/{final}") { backStackEntry ->
                         Ganador(
                             navController, ""
+                        )
+                    }
+
+                    composable("clasificacion") { backStackEntry ->
+                        Clasificacion(
+                            navController
                         )
                     }
 

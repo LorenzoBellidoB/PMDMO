@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,14 +34,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.stonepapersscissors.MainActivity.Companion.database
 import com.example.stonepapersscissors.R
+import com.example.stonepapersscissors.dal.JugadorEntity
 import kotlin.random.Random
 
 @Composable
-fun Inicio(navController: NavController){
+fun Inicio(navController: NavController, username: String?){
     var eleccion by remember { mutableStateOf("") }
 
-    var jugador by remember { mutableStateOf(0) }
+    var jugador = JugadorEntity()
+
+    var jugadorEleccion by remember { mutableStateOf(0) }
 
     var mostrar by remember { mutableStateOf(false) }
 
@@ -52,6 +58,13 @@ fun Inicio(navController: NavController){
     var puntosJ by remember { mutableStateOf(0) }
 
     var puntosO by remember { mutableStateOf(0) }
+
+    val listaJugadores = remember { mutableStateListOf<JugadorEntity>() }
+    LaunchedEffect(Unit) {
+        listaJugadores.clear()
+        listaJugadores.addAll(database.jugadorDao().getAll())
+    }
+    jugador = listaJugadores.find { it.name == username } ?: JugadorEntity()
 
 
     Column(Modifier.background(Fondo()).fillMaxSize().padding(10.dp,40.dp),
@@ -76,11 +89,13 @@ fun Inicio(navController: NavController){
             horizontalArrangement = Arrangement.Center) {
             var final = ""
             val context = LocalContext.current
+
             Button(onClick = {luchar = true
                 ordenador = Elegir()
-                ganador = DeterminarGanador(jugador,ordenador)
+                ganador = DeterminarGanador(jugadorEleccion,ordenador)
                 if(ganador == 1){
                     puntosJ += 1
+                    jugador.luchasGanadas += 1
                     Toast.makeText(context,"Gana el jugador",Toast.LENGTH_SHORT).show()
                 }else if(ganador == -1){
                     puntosO += 1
@@ -89,14 +104,18 @@ fun Inicio(navController: NavController){
                 }else {
                     puntosJ += 1
                     puntosO += 1
+                    jugador.luchasGanadas += 1
                     Toast.makeText(context,"Empate",Toast.LENGTH_SHORT).show()
                 }
                 if(puntosJ == 5){
+                    jugador.partidasGanadas += 1
+                    jugador.partidasJugadas += 1
                     final = "Jugador"
-                    navController.navigate("ganador/$final")
+                    navController.navigate("ganador/{$final}")
                 }else if(puntosO == 5){
+                    jugador.partidasJugadas += 1
                     final = "Ordenador"
-                    navController.navigate("ganador/$final")
+                    navController.navigate("ganador/{$final}")
                 }
                 },
                 Modifier.width(150.dp).height(70.dp),
@@ -108,9 +127,9 @@ fun Inicio(navController: NavController){
         }
 
         if(mostrar){
-            Log.d(":::EleccionJ", "$jugador")
+            Log.d(":::EleccionJ", "$jugadorEleccion")
             Image(
-                painterResource(jugador),
+                painterResource(jugadorEleccion),
                 contentDescription = "Eleccion",
                 Modifier.width(120.dp)
             )
@@ -124,7 +143,7 @@ fun Inicio(navController: NavController){
                 contentDescription = "Piedra",
                 Modifier.clickable {
                     eleccion = "Piedra"
-                    jugador = R.drawable.rock
+                    jugadorEleccion = R.drawable.rock
                     mostrar = true
                 }
 
@@ -134,7 +153,7 @@ fun Inicio(navController: NavController){
                 contentDescription = "Papel",
                 Modifier.clickable {
                     eleccion = "Papel"
-                    jugador = R.drawable.paper
+                    jugadorEleccion = R.drawable.paper
                     mostrar = true
                 }
             )
@@ -143,7 +162,7 @@ fun Inicio(navController: NavController){
                 contentDescription = "Tijeras",
                 Modifier.clickable {
                     eleccion = "Tijeras"
-                    jugador = R.drawable.scissors
+                    jugadorEleccion = R.drawable.scissors
                     mostrar = true
                 }
             )

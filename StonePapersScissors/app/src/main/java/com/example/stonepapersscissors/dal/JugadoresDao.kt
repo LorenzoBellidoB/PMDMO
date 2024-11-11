@@ -13,7 +13,7 @@ interface JugadoresDao {
     suspend fun getAll(): List<JugadorEntity>
 
     @Query("SELECT * FROM jugadores WHERE id = :playerId")
-    suspend fun getJugadorById(playerId: Int): JugadorEntity?
+    suspend fun getJugadorById(playerId: Int): JugadorEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertar(jugador: JugadorEntity)
