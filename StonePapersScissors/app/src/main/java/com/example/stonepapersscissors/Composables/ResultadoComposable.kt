@@ -5,9 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,8 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.stonepapersscissors.R
 
+// Clase que muestra el ganador
 @Composable
-fun Ganador(navController: NavHostController, string: String?) {
+fun Ganador(navController: NavHostController, username: String?) {
     Box(
         Modifier
             .fillMaxSize()
@@ -32,9 +33,11 @@ fun Ganador(navController: NavHostController, string: String?) {
     ) {
         Row(
             Modifier
+                .fillMaxWidth()
                 .padding(20.dp)
                 .align(Alignment.TopStart),
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.Top
         ) {
             Image(
                 painter = painterResource(R.drawable.baseline_west_24),
@@ -44,26 +47,19 @@ fun Ganador(navController: NavHostController, string: String?) {
                     .width(30.dp)
                     .height(30.dp)
                     .clickable {
-                        navController.navigate("inicio")
+                        navController.navigate("inicio/${username}")
                     }
             )
-        }
 
-        Row(
-            Modifier
-                .padding(20.dp)
-                .align(Alignment.TopStart),
-            horizontalArrangement = Arrangement.End
-        ) {
             Image(
-                painter = painterResource(R.drawable.baseline_west_24),
+                painter = painterResource(R.drawable.baseline_sports_score_24),
                 contentDescription = "Clasificacion",
                 Modifier
                     .padding(10.dp)
                     .width(30.dp)
                     .height(30.dp)
                     .clickable {
-                        navController.navigate("clasificacion")
+                        navController.navigate("clasificacion/${username}")
                     }
             )
         }
@@ -73,9 +69,9 @@ fun Ganador(navController: NavHostController, string: String?) {
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            if (string != null) {
+            if (username != null) {
                 Text(
-                    text = "Gana $string",
+                    text = "Gana $username",
                     fontSize = 30.sp,
                     color = Color(80,20,35),
                     fontWeight = FontWeight.Bold

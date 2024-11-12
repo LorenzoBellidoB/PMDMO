@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,8 +38,10 @@ import androidx.navigation.NavController
 import com.example.stonepapersscissors.MainActivity.Companion.database
 import com.example.stonepapersscissors.R
 import com.example.stonepapersscissors.dal.JugadorEntity
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+// Función para mostrar la pantalla de inicio
 @Composable
 fun Inicio(navController: NavController, username: String?){
     var eleccion by remember { mutableStateOf("") }
@@ -89,6 +92,7 @@ fun Inicio(navController: NavController, username: String?){
             horizontalArrangement = Arrangement.Center) {
             var final = ""
             val context = LocalContext.current
+            val coroutineScope = rememberCoroutineScope()
 
             Button(onClick = {luchar = true
                 ordenador = Elegir()
@@ -96,6 +100,11 @@ fun Inicio(navController: NavController, username: String?){
                 if(ganador == 1){
                     puntosJ += 1
                     jugador.luchasGanadas += 1
+
+                    coroutineScope.launch {
+                        database.jugadorDao().actualizar(jugador)
+                    }
+
                     Toast.makeText(context,"Gana el jugador",Toast.LENGTH_SHORT).show()
                 }else if(ganador == -1){
                     puntosO += 1
@@ -105,17 +114,32 @@ fun Inicio(navController: NavController, username: String?){
                     puntosJ += 1
                     puntosO += 1
                     jugador.luchasGanadas += 1
+
+                    coroutineScope.launch {
+                        database.jugadorDao().actualizar(jugador)
+                    }
+
                     Toast.makeText(context,"Empate",Toast.LENGTH_SHORT).show()
                 }
                 if(puntosJ == 5){
                     jugador.partidasGanadas += 1
                     jugador.partidasJugadas += 1
-                    final = "Jugador"
-                    navController.navigate("ganador/{$final}")
+
+                    coroutineScope.launch {
+                        database.jugadorDao().actualizar(jugador)
+                    }
+
+                    final = jugador.name
+                    navController.navigate("ganador/${final}")
                 }else if(puntosO == 5){
                     jugador.partidasJugadas += 1
+
+                    coroutineScope.launch {
+                        database.jugadorDao().actualizar(jugador)
+                    }
+
                     final = "Ordenador"
-                    navController.navigate("ganador/{$final}")
+                    navController.navigate("ganador/${final}")
                 }
                 },
                 Modifier.width(150.dp).height(70.dp),
@@ -171,7 +195,7 @@ fun Inicio(navController: NavController, username: String?){
 
 }
 
-
+// Función para mostrar el ordenador
 @Composable
 fun Ordenador(){
     Row(modifier = Modifier.fillMaxWidth().height(100.dp)) {
@@ -181,8 +205,7 @@ fun Ordenador(){
     }
 }
 
-
-
+// Función para poner el fondo con un gradiente
 @Composable
 fun Fondo():Brush{
     val gradiente = Brush.radialGradient(
@@ -194,6 +217,7 @@ fun Fondo():Brush{
     return gradiente
 }
 
+// Función para elegir una opción aleatoria
 fun Elegir(): Int {
     val num = Random.nextInt(1, 4)
     var painter = 0
@@ -208,6 +232,7 @@ fun Elegir(): Int {
     return painter
 }
 
+// Función para determinar el ganador
 fun DeterminarGanador(jugador: Int, ordenador: Int): Int {
     return if (jugador == ordenador) {
         0

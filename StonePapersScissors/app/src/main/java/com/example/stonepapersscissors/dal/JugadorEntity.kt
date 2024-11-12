@@ -3,6 +3,7 @@ package com.example.stonepapersscissors.dal
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// Clase que representa a un jugador en la base de datos
 @Entity(tableName = "jugadores")
 data class JugadorEntity (
     @PrimaryKey(autoGenerate = true)

@@ -20,26 +20,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.stonepapersscissors.MainActivity.Companion.database
 import com.example.stonepapersscissors.dal.JugadorEntity
 import kotlinx.coroutines.launch
 
+// Funcion que representa la pantalla de inicio de sesión
 @Composable
 fun Login(navController: NavController){
     var username by remember { mutableStateOf("") }
     var jugador: JugadorEntity = JugadorEntity()
     val coroutineScope = rememberCoroutineScope()
     val listaJugadores = remember { mutableStateListOf<JugadorEntity>() }
+    var jugadorEncontrado: JugadorEntity? = null
     LaunchedEffect(Unit) {
         listaJugadores.clear()
         listaJugadores.addAll(database.jugadorDao().getAll())
     }
 
-    Column (Modifier.fillMaxSize().background(Color.Gray).padding(10.dp),
+    Column (
+        Modifier
+            .fillMaxSize()
+            .background(Fondo())
+            .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center){
+        Row {
+            Text(text = "Iniciar Sesión"
+                , fontWeight = FontWeight.Bold,
+                fontSize = 40.sp
+            )
+        }
         Row {
             TextField(value = username,
                 onValueChange = {username = it},
@@ -50,10 +64,9 @@ fun Login(navController: NavController){
             navController.navigate("inicio/${username}")
             coroutineScope.launch {
                 jugador.name = username
-                for (jugador in listaJugadores) {
-                    if (jugador.name != username) {
-                        database.jugadorDao().insertar(jugador)
-                    }
+                jugadorEncontrado = listaJugadores.find { it.name == username }
+                if(jugadorEncontrado == null){
+                    database.jugadorDao().insertar(jugador)
                 }
 
             }

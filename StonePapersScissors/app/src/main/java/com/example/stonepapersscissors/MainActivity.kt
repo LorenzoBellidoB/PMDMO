@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import com.example.stonepapersscissors.Composables.Clasificacion
 import com.example.stonepapersscissors.Composables.Ganador
 import com.example.stonepapersscissors.Composables.Inicio
 import com.example.stonepapersscissors.Composables.Login
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Inicializar la base de datos
         database = Room.databaseBuilder(
             applicationContext,
             JugadoresDatabase::class.java,
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StonePapersScissorsTheme {
-
+                // Controlador de navegación
                 val navController = rememberNavController()
 
                 NavHost(
@@ -45,13 +47,15 @@ class MainActivity : ComponentActivity() {
 
                     composable("ganador/{final}") { backStackEntry ->
                         Ganador(
-                            navController, ""
+                            navController,
+                            backStackEntry.arguments?.getString("final")
                         )
                     }
 
-                    composable("clasificacion") { backStackEntry ->
+                    composable("clasificacion/{username}") { backStackEntry ->
                         Clasificacion(
-                            navController
+                            navController,
+                            backStackEntry.arguments?.getString("username")
                         )
                     }
 

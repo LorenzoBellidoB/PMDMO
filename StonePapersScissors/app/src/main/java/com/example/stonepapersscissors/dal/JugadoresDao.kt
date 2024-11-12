@@ -7,14 +7,18 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
+// Clase de acceso a datos
 @Dao
 interface JugadoresDao {
+    // Consultas SQL para interactuar con la base de datos
     @Query("SELECT * FROM jugadores")
     suspend fun getAll(): List<JugadorEntity>
 
+    // Consulta para obtener un jugador por su nombre
     @Query("SELECT * FROM jugadores WHERE id = :playerId")
-    suspend fun getJugadorById(playerId: Int): JugadorEntity
+    suspend fun getJugadorByName(playerId: Int): JugadorEntity
 
+    // Operaciones CRUD
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertar(jugador: JugadorEntity)
 
