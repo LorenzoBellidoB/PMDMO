@@ -4,9 +4,12 @@ package com.example.listacontactosbd.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -26,13 +29,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.contactosbd.MainActivity.Companion.database
 import com.example.contactosbd.R
 import com.example.listacontactosbd.dal.PersonaEntity
 import kotlinx.coroutines.launch
 
-
+// Funcion que muestra la pantalla de login y valida el usuario para cambiar de pantalla
 @Composable
 fun SimpleLogin(navController: NavController) {
     var user by rememberSaveable { mutableStateOf("Usuario") }
@@ -44,59 +48,61 @@ fun SimpleLogin(navController: NavController) {
         listaPersonas.addAll(database.personaDao().getAll())
     }
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-            .background(Color.LightGray)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.man),
-            contentDescription = "Foto contacto",
-            Modifier.height(100.dp)
-        )
-        TextField(
+    Column (Modifier.fillMaxSize().background(Color(142, 202, 255))) {
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
-            value = user,
-            onValueChange = { user = it },
-            label = { Text("Usuario") }
-        )
-
-
-
-
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Contraseña") },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-        )
-
-
-
-        OutlinedButton(
-            modifier = Modifier.padding(10.dp),
-            onClick = {
-                if(user == "Usuario"){
-                    navController.navigate("contactos")
-                    coroutineScope.launch {
-                        listaPersonas.clear()
-                        listaPersonas.addAll(database.personaDao().getAll())
-                    }
-                }
-
-            }
+                .padding(15.dp)
+                .background(Color(34, 152, 255))
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.man),
+                contentDescription = "Foto contacto",
+                Modifier.height(100.dp). padding(5.dp)
+            )
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                value = user,
+                onValueChange = { user = it },
+                label = { Text("Usuario") }
+            )
 
-            Text(text = "Inicia Sesion", color = Color.Black)
+
+
+
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            )
+
+
+
+            OutlinedButton(
+                modifier = Modifier.padding(10.dp).width(200.dp),
+                onClick = {
+                    if(user == "Usuario"){
+                        navController.navigate("contactos")
+                        coroutineScope.launch {
+                            listaPersonas.clear()
+                            listaPersonas.addAll(database.personaDao().getAll())
+                        }
+                    }
+
+                }
+            ) {
+
+                Text(text = "Inicia Sesion", fontSize = 20.sp, color = Color.Black)
+            }
         }
     }
+
 
 }
