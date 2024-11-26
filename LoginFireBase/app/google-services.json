@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "950013982026",
+    "project_id": "lorenzobellido1-2e49a",
+    "storage_bucket": "lorenzobellido1-2e49a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950013982026:android:111247eb842fa237e27db3",
+        "android_client_info": {
+          "package_name": "com.example.loginfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIkNY7RiCCwNKogVrxisbuTEmc3ulSSqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
