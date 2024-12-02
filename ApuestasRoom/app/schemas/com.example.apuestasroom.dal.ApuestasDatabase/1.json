@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9bd404620e00dfdbbb1f9d1212ccc835",
+    "identityHash": "85989a3b83a226dffafbfc7f9d703f50",
     "entities": [
       {
         "tableName": "jugadores",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "sorteos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSorteo` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `numGanador1` INTEGER NOT NULL, `numGanador2` INTEGER NOT NULL, `idGanador` INTEGER NOT NULL, FOREIGN KEY(`idGanador`) REFERENCES `jugadores`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSorteo` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `numGanador1` INTEGER NOT NULL, `numGanador2` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "idSorteo",
@@ -63,12 +63,6 @@
             "columnName": "numGanador2",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "idGanador",
-            "columnName": "idGanador",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -78,25 +72,13 @@
           ]
         },
         "indices": [],
-        "foreignKeys": [
-          {
-            "table": "jugadores",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "idGanador"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9bd404620e00dfdbbb1f9d1212ccc835')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '85989a3b83a226dffafbfc7f9d703f50')"
     ]
   }
 }

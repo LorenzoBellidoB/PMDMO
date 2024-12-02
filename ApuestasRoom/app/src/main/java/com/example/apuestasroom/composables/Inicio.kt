@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -19,15 +20,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.NavController
+import com.example.apuestasroom.MainActivity.Companion.apuestasDb
 import com.example.apuestasroom.R
+import com.example.apuestasroom.dal.JugadorEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-@Preview
+
 @Composable
-fun Inicio() {
-    var jugador by remember { mutableStateOf("") }
+fun Inicio(navController: NavController) {
+    var nombre by remember { mutableStateOf("") }
+    var jugardor: JugadorEntity = JugadorEntity()
     var numElegido1 by remember { mutableStateOf(0) }
     var numElegido2 by remember { mutableStateOf(0) }
     val backgroundPainter = painterResource(R.drawable.dall_e_2024_12_02_11_11)
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -48,8 +56,8 @@ fun Inicio() {
         ) {
             // Campo de texto para el nombre del jugador
             OutlinedTextField(
-                value = jugador,
-                onValueChange = { jugador = it },
+                value = nombre,
+                onValueChange = { nombre = it },
                 label = { Text("Jugador") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -57,6 +65,11 @@ fun Inicio() {
             // Sección de botones con selección de números
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Button(onClick = {numElegido1 = 0; numElegido2 = 0}
+                        ,enabled = (numElegido1 != 0 && numElegido2 != 0),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        border = BorderStroke(2.dp, Color.Black),
+                    ){ Text("Reiniciar Eleccion", color = Color.Black, fontSize = 19.sp, fontWeight = FontWeight.Bold) }
                     // Fila 1 de botones
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(16.dp)) {
                         NumButton(1, numElegido1, numElegido2) { num ->
@@ -99,7 +112,23 @@ fun Inicio() {
                             if (numElegido1 == 0) numElegido1 = num else numElegido2 = num
                         }
                     }
-                    Button(onClick = {}) { Text("Apostar") }
+                    Button(onClick = {
+                        navController.navigate("sorteo")
+                        coroutineScope.launch {
+                            apuestasDb.jugadoresDao().insert(
+                                JugadorEntity(
+                                    nombre = nombre,
+                                    numElegido1 = numElegido1,
+                                    numElegido2 = numElegido2
+                                )
+                            )
+                        }
+
+                    }
+                        ,enabled = (!nombre.isNullOrEmpty() && numElegido1 != 0 && numElegido2 != 0),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        border = BorderStroke(2.dp, Color.Black),
+                    ){ Text("Apostar", color = Color.Black, fontSize = 19.sp, fontWeight = FontWeight.Bold) }
                 }
             }
         }
