@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "salas"
+                    startDestination = "configuracion"
                 ) {
                     composable("configuracion") { pantallaConfig(navController) }
                     composable("salas") { backStackEntry ->
