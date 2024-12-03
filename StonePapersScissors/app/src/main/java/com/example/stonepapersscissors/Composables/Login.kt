@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import com.example.stonepapersscissors.MainActivity.Companion.database
 import com.example.stonepapersscissors.dal.JugadorEntity
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 // Funcion que representa la pantalla de inicio de sesión
 @Composable
@@ -47,30 +48,31 @@ fun Login(navController: NavController){
             .background(Fondo())
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center){
+        verticalArrangement = Arrangement.Center) {
         Row {
-            Text(text = "Iniciar Sesión"
-                , fontWeight = FontWeight.Bold,
+            Text(
+                text = "Iniciar Sesión", fontWeight = FontWeight.Bold,
                 fontSize = 40.sp
             )
         }
         Row {
             TextField(value = username,
-                onValueChange = {username = it},
-                placeholder ={ Text("Usuario") }
+                onValueChange = { username = it },
+                placeholder = { Text("Usuario") }
             )
         }
-        Button(onClick = {
-            navController.navigate("inicio/${username}")
-            coroutineScope.launch {
-                jugador.name = username
-                jugadorEncontrado = listaJugadores.find { it.name == username }
-                if(jugadorEncontrado == null){
-                    database.jugadorDao().insertar(jugador)
-                }
+        Button(
+            onClick = {
+                navController.navigate("inicio/${username}")
+                coroutineScope.launch {
+                    jugador.name = username
+                    jugadorEncontrado = listaJugadores.find { it.name == username }
+                    if (jugadorEncontrado == null) {
+                        database.jugadorDao().insertar(jugador)
+                    }
 
-            }
-        }, enabled = !username.isNullOrEmpty()
+                }
+            }, enabled = !username.isNullOrEmpty()
         ) {
             Text("Jugar")
         }
