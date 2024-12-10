@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "login"
+                    startDestination = "login" 
                 ) {
                     composable("login") { login(navController) }
                     composable("inicio") { backStackEntry ->
